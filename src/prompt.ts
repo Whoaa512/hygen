@@ -2,7 +2,15 @@ import path from 'path'
 import fs from 'fs'
 import { Prompter } from './types'
 
-const hooksfiles = ['prompt.js', 'index.js']
+const flatMap = (arr, f) => [].concat(...arr.map(f))
+
+const hooks = ['prompt', 'index']
+const supportedExts = ['js', 'ts']
+const hooksfiles = flatMap(hooks, (hook: string) =>
+  flatMap(supportedExts, (ext: string) =>
+    `${hook}.${ext}`
+  )
+)
 const prompt = (
   createPrompter: () => Prompter,
   actionfolder: string,
